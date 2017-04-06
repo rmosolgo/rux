@@ -1,5 +1,7 @@
 // Include Ruby's C API:
 #include<ruby.h>
+// Include Rax's API
+#include "rax/rax.h"
 
 // This function is called by Ruby,
 // following the convention `Init_<extension-name>`:
