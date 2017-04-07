@@ -15,4 +15,5 @@ Rake::ExtensionTask.new "rux" do |ext|
   ext.lib_dir = "lib/rux"
 end
 
+task :default => :compile
 task :default => :test
