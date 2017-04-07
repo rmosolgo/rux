@@ -27,9 +27,6 @@ module Rux
     #   @return [void]
     # @!method size
     #   @return [Integer] The number of pairs in the tree
-    # @!method node_size
-    #   Just for fun.
-    #   @return [Integer] The number of real nodes in the tree (less than {#size} when null compaction is used)
     # @!method show
     #   Prints a representation of the tree to STDOUT. Just for fun.
     #   @return [void]

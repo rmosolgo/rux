@@ -100,8 +100,7 @@ class RuxMapTest < Minitest::Test
     assert_equal :fallback, map.delete("abc", :fallback)
   end
 
-  def test_it_compacts_nil_values
-    skip "it segfaults"
+  def test_it_stores_nil_values
     map = Rux::Map.new
     assert_equal 1, map.node_size
     map.set("a", :a)
@@ -110,19 +109,8 @@ class RuxMapTest < Minitest::Test
     map.set("abc", nil)
     map.set("abcd", nil)
     assert_equal 4, map.size
-    assert_equal 3, map.node_size
     assert_nil map.get("abc")
     map.set("abc", 9)
-    assert_equal 4, map.node_size
-  end
-
-  def test_segfault
-    skip "it segfaults"
-    map = Rux::Map.new
-    map.set("a", :a)
-    map.set("ab", :ab)
-    map.set("abc", nil)
-    map.set("abcd", nil)
-    map.set("abc", 9)
+    assert_equal 4, map.size
   end
 end
