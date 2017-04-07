@@ -33,10 +33,10 @@ class RuxTreeTest < Minitest::Test
 
   def test_it_enumerates_members
     tree = Rux::Tree.new
-    tree.set("aaa", Box.new(1))
-    tree.set("aab", Box.new(2))
-    tree.set("aac", Box.new(3))
-    tree.set("aad", Box.new(4))
+    tree.set("aaa", Box.new(10))
+    tree.set("aab", Box.new(20))
+    tree.set("aac", Box.new(30))
+    tree.set("aad", Box.new(40))
 
     assert_equal 4, tree.size
 
@@ -47,7 +47,7 @@ class RuxTreeTest < Minitest::Test
       values << value.value
     end
     assert_equal ["aaa", "aab", "aac", "aad"], keys
-    assert_equal [1, 2, 3, 4], values
+    assert_equal [10, 20, 30, 40], values
   end
 
   def test_it_survives_gc
@@ -70,9 +70,9 @@ class RuxTreeTest < Minitest::Test
 
   def test_it_raises_on_non_string_keys
     tree = Rux::Tree.new
-    assert_raises(ArgumentError) { tree[1] = 1 }
-    assert_raises(ArgumentError) { tree[1]  }
-    assert_raises(ArgumentError) { tree.delete(1)  }
+    assert_raises(ArgumentError) { tree[9] = 100 }
+    assert_raises(ArgumentError) { tree[9]  }
+    assert_raises(ArgumentError) { tree.delete(9)  }
     assert_equal 0, tree.size
   end
 
@@ -86,10 +86,10 @@ class RuxTreeTest < Minitest::Test
 
   def test_set_returns_the_previous_value_or_fallback
     tree = Rux::Tree.new
-    assert_nil tree.set("a", 1)
-    assert_equal 1, tree.set("a", 2)
+    assert_nil tree.set("a", 11)
+    assert_equal 11, tree.set("a", 2)
     assert_equal 2, tree.set("a", :x)
-    assert_equal :fallback, tree.set("x", 1, :fallback)
+    assert_equal :fallback, tree.set("x", 11, :fallback)
   end
 
   def test_delete_returns_the_previous_value
@@ -98,5 +98,29 @@ class RuxTreeTest < Minitest::Test
     assert_equal :abc, tree.delete("abc")
     assert_nil tree.delete("abc")
     assert_equal :fallback, tree.delete("abc", :fallback)
+  end
+
+  # def test_it_compacts_nil_values
+  #   tree = Rux::Tree.new
+  #   assert_equal 1, tree.node_size
+  #   tree.set("a", :a)
+  #   tree.set("ab", :b)
+  #   assert_equal 3, tree.node_size
+  #   tree.set("abc", nil)
+  #   tree.set("abcd", nil)
+  #   assert_equal 4, tree.size
+  #   assert_equal 3, tree.node_size
+  #   assert_nil tree.get("abc")
+  #   tree.set("abc", 9)
+  #   assert_equal 4, tree.node_size
+  # end
+
+  def test_segfault
+    tree = Rux::Tree.new
+    tree.set("a", :a)
+    tree.set("ab", :ab)
+    tree.set("abc", nil)
+    tree.set("abcd", nil)
+    tree.set("abc", 9)
   end
 end
