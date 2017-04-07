@@ -42,12 +42,16 @@ tree.set("x", 2, :not_found)  # => 1
 tree.delete("x")              # => 2
 ```
 
+API:
+
+- [`Rux::Tree`](http://www.rubydoc.info/github/rmosolgo/rux/master/Rux/Tree)
+- [`Rux::Set`](http://www.rubydoc.info/github/rmosolgo/rux/master/Rux/Set)
+
 ## Todo
 
 - Support cool lexicographical slices via `raxIter`
 - Expose `rax`'s lazy enumeration
 - Learn how CRuby handles argument errors for variadic methods and do that
-- Implement a `rax`-backed Set for strings
 
 ## Development
 
