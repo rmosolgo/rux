@@ -59,7 +59,9 @@ VALUE rux_cTree_size(VALUE self) {
 }
 
 VALUE rux_cTree_set(VALUE self, VALUE key, VALUE value) {
-  // TODO typecheck key
+  if (!RB_TYPE_P(key, T_STRING)) {
+    rb_raise(rb_eArgError, "key must be String");
+  }
   // Read the stored tree into this pointer
   rax *rt;
   TypedData_Get_Struct(self, rax, &rux_rax_type, rt);
@@ -71,7 +73,9 @@ VALUE rux_cTree_set(VALUE self, VALUE key, VALUE value) {
 }
 
 VALUE rux_cTree_get(VALUE self, VALUE key) {
-  // TODO typecheck key
+  if (!RB_TYPE_P(key, T_STRING)) {
+    rb_raise(rb_eArgError, "key must be String");
+  }
   rax *rt;
   TypedData_Get_Struct(self, rax, &rux_rax_type, rt);
   char *c_str = RSTRING_PTR(key);
@@ -85,7 +89,9 @@ VALUE rux_cTree_get(VALUE self, VALUE key) {
 }
 
 VALUE rux_cTree_delete(VALUE self, VALUE key) {
-  // TODO typecheck key
+  if (!RB_TYPE_P(key, T_STRING)) {
+    rb_raise(rb_eArgError, "key must be String");
+  }
   rax *rt;
   TypedData_Get_Struct(self, rax, &rux_rax_type, rt);
   char *c_str = RSTRING_PTR(key);

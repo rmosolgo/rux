@@ -68,10 +68,11 @@ class RuxTreeTest < Minitest::Test
     assert_equal 99_999, last_pair.last.value
   end
 
-  # def test_it_raises_on_non_string_keys
-  #   tree = Rux::Tree.new
-  #   tree[1] = 1
-  #   tree.each do |k, v| puts(k, v) end
-  #   assert_equal 0, tree.size
-  # end
+  def test_it_raises_on_non_string_keys
+    tree = Rux::Tree.new
+    assert_raises(ArgumentError) { tree[1] = 1 }
+    assert_raises(ArgumentError) { tree[1]  }
+    assert_raises(ArgumentError) { tree.delete(1)  }
+    assert_equal 0, tree.size
+  end
 end

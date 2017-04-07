@@ -30,7 +30,6 @@ tree.size         # => 1
 
 ## Todo
 
-- Typecheck keys
 - Support cool lexicographical slices via `raxIter`
 - Expose `rax`'s lazy enumeration
 - Expose `rax`'s previous-value API
