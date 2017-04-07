@@ -210,8 +210,6 @@ void Init_rux(void) {
   rb_define_method(rux_cTree, "get", rux_cTree_get, -1);
   rb_define_method(rux_cTree, "set", rux_cTree_set, -1);
   rb_define_method(rux_cTree, "delete", rux_cTree_delete, -1);
-  rb_define_alias(rux_cTree, "[]", "get");
-  rb_define_alias(rux_cTree, "[]=", "set");
   rb_define_method(rux_cTree, "each", rux_cTree_each, 0);
   rb_define_method(rux_cTree, "show", rux_cTree_show, 0);
 }
