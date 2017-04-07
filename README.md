@@ -1,5 +1,7 @@
 # Rux
 
+[![Build Status](https://travis-ci.org/rmosolgo/rux.svg?branch=master)](https://travis-ci.org/rmosolgo/rux)
+
 Ruby binding to [`antirez/rax`](https://github.com/antirez/rax), a [Radix tree](https://en.wikipedia.org/wiki/Radix_tree) implementation in C.
 
 `Rux::Tree` is a key-value enumerable like `Hash`, but its keys must be strings. Its sweet spot is when:
