@@ -5,7 +5,7 @@ require "rux/set"
 
 module Rux
   # A key-value data store backed by a `rax` Radix tree.
-  class Tree
+  class Map
     # @!method set(key, value, fallback = nil)
     #   Sets `key` equal to `value` in the tree. Returns the previous value or `fallback`
     #   @param key [String]

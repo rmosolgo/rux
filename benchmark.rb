@@ -26,7 +26,7 @@ def test_class(cls)
 end
 
 Benchmark.ips do |x|
-  x.report("Rux ") { test_class(Rux::Tree) }
+  x.report("Rux ") { test_class(Rux::Map) }
   x.report("Hash") { test_class(Hash) }
   x.compare!
 end

@@ -5,31 +5,31 @@ module Rux
 
     # @param members [Array<String>]
     def initialize(members = [])
-      @tree = Rux::Tree.new
+      @map = Rux::Map.new
       members.each { |m| add(m) }
     end
 
     # @param member [String]
     # @return [Boolean] true if member was added (false if already present)
     def add(member)
-      !!@tree.set(member, nil, :absent)
+      !!@map.set(member, nil, :absent)
     end
 
     # @param member [String]
     # @return [Boolean] true if member was deleted (false if was not present)
     def delete(member)
-      !@tree.delete(member, :absent)
+      !@map.delete(member, :absent)
     end
 
     # @param member [String]
     # @return [Boolean] true if member is present
     def include?(member)
-      !@tree.get(member, :absent)
+      !@map.get(member, :absent)
     end
 
     # @return [Integer]
     def size
-      @tree.size
+      @map.size
     end
 
     alias :length :size
@@ -38,7 +38,7 @@ module Rux
     alias :push :add
 
     def each
-      @tree.each { |k, v| yield(k) }
+      @map.each { |k, v| yield(k) }
     end
   end
 end

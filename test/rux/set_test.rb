@@ -23,6 +23,6 @@ class RuxSetTest < Minitest::Test
   end
 
   def test_it_enumerates_slices
-    skip "Needs support from Rux::Tree first"
+    skip "Needs support from Rux::Map first"
   end
 end

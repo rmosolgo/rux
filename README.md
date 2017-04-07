@@ -4,10 +4,12 @@
 
 Ruby binding to [`antirez/rax`](https://github.com/antirez/rax), a [Radix tree](https://en.wikipedia.org/wiki/Radix_tree) implementation in C.
 
-`Rux::Tree` is a key-value enumerable like `Hash`, but its keys must be strings. Its sweet spot is when:
+`Rux::Map` is a key-value enumerable like `Hash`, but its keys must be strings. Its sweet spot is when:
 
 - The keys are large in size or many in number, but they share some prefixes
 - You need to iterate over the keyspace lexicographically (it's stored in alphabetical order) (not supported, see todos)
+
+`Rux::Set` is a collection of unique values like `Set`, but its values must be strings.
 
 ## Installation
 
@@ -23,30 +25,30 @@ gem 'rux', github: 'rmosolgo/rux'
 
 ```ruby
 require "rux"
-tree = Rux::Tree.new
-tree["a"] = 1
-tree["ab"] = 2
-tree.each { |k, v| puts(k, v) }
+map = Rux::Map.new
+map["a"] = 1
+map["ab"] = 2
+map.each { |k, v| puts(k, v) }
 # a
 # 1
 # ab
 # 2
-tree.size         # => 2
-tree["ab"]        # => 2
-tree.delete("a")  # => 1
-tree.size         # => 1
+map.size         # => 2
+map["ab"]        # => 2
+map.delete("a")  # => 1
+map.size         # => 1
 # fallbacks:
-tree.get("x", :not_found)     # => :not_found
-tree.delete("x", :not_found)  # => :not_found
-tree.set("x", 1, :not_found)  # => :not_found
+map.get("x", :not_found)     # => :not_found
+map.delete("x", :not_found)  # => :not_found
+map.set("x", 1, :not_found)  # => :not_found
 # previous value:
-tree.set("x", 2, :not_found)  # => 1
-tree.delete("x")              # => 2
+map.set("x", 2, :not_found)  # => 1
+map.delete("x")              # => 2
 ```
 
 API:
 
-- [`Rux::Tree`](http://www.rubydoc.info/github/rmosolgo/rux/master/Rux/Tree)
+- [`Rux::Map`](http://www.rubydoc.info/github/rmosolgo/rux/master/Rux/Map)
 - [`Rux::Set`](http://www.rubydoc.info/github/rmosolgo/rux/master/Rux/Set)
 
 ## Todo
