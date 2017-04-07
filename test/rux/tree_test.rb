@@ -75,4 +75,18 @@ class RuxTreeTest < Minitest::Test
     assert_raises(ArgumentError) { tree.delete(1)  }
     assert_equal 0, tree.size
   end
+
+  def test_set_returns_the_previous_value
+    tree = Rux::Tree.new
+    assert_nil tree.set("a", 1)
+    assert_equal 1, tree.set("a", 2)
+    assert_equal 2, tree.set("a", :x)
+  end
+
+  def test_delete_returns_the_previous_value
+    tree = Rux::Tree.new
+    tree.set("abc", :abc)
+    assert_equal :abc, tree.delete("abc")
+    assert_nil tree.delete("abc")
+  end
 end

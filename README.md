@@ -33,6 +33,7 @@ tree.size         # => 1
 - Support cool lexicographical slices via `raxIter`
 - Expose `rax`'s lazy enumeration
 - Expose `rax`'s previous-value API
+- Translate `Qnil` to `NULL` in `rax` so that the tree can compact
 
 ## Development
 

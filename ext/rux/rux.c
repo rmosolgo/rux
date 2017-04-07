@@ -67,9 +67,14 @@ VALUE rux_cTree_set(VALUE self, VALUE key, VALUE value) {
   TypedData_Get_Struct(self, rax, &rux_rax_type, rt);
   char *c_str = RSTRING_PTR(key);
   size_t str_len = RSTRING_LEN(key);
-  void **prev;
-  raxInsert(rt, (unsigned char *)(c_str), str_len, (void *)value, prev);
-  return value;
+  void *prev;
+  int res = raxInsert(rt, (unsigned char *)(c_str), str_len, (void *)value, &prev);
+  if (res == 1) {
+    return Qnil;
+  } else {
+    // TODO: This could also be out-of-memory error
+    return (VALUE)(prev);
+  }
 }
 
 VALUE rux_cTree_get(VALUE self, VALUE key) {
@@ -96,10 +101,10 @@ VALUE rux_cTree_delete(VALUE self, VALUE key) {
   TypedData_Get_Struct(self, rax, &rux_rax_type, rt);
   char *c_str = RSTRING_PTR(key);
   size_t str_len = RSTRING_LEN(key);
-  void **prev;
-  int wasRemoved = raxRemove(rt, (unsigned char *)(c_str), str_len, prev);
+  void *prev;
+  int wasRemoved = raxRemove(rt, (unsigned char *)(c_str), str_len, &prev);
   if (wasRemoved) {
-    return (VALUE)(*prev);
+    return (VALUE)(prev);
   } else {
     return Qnil;
   }
