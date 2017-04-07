@@ -2,9 +2,14 @@
 
 Ruby binding to [`antirez/rax`](https://github.com/antirez/rax), a [Radix tree](https://en.wikipedia.org/wiki/Radix_tree) implementation in C.
 
+`Rux::Tree` is a key-value enumerable like `Hash`, but its keys must be strings. Its sweet spot is when:
+
+- The keys are large in size or many in number, but they share some prefixes
+- You need to iterate over the keyspace lexicographically (it's stored in alphabetical order) (not supported, see todos)
+
 ## Installation
 
-~~Add this line to your application's Gemfile:~~
+Add this line to your application's Gemfile:
 
 ```ruby
 # not on rubygems ... yet?
@@ -41,9 +46,8 @@ tree.delete("x")              # => 2
 
 - Support cool lexicographical slices via `raxIter`
 - Expose `rax`'s lazy enumeration
-- Expose `rax`'s previous-value API
-- Translate `Qnil` to `NULL` in `rax` so that the tree can compact
 - Learn how CRuby handles argument errors for variadic methods and do that
+- Implement a `rax`-backed Set for strings
 
 ## Development
 
