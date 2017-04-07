@@ -76,11 +76,20 @@ class RuxTreeTest < Minitest::Test
     assert_equal 0, tree.size
   end
 
-  def test_set_returns_the_previous_value
+  def test_get_returns_fallback_if_absent
+    tree = Rux::Tree.new
+    tree.set("qqq", nil)
+    assert_nil tree.get("qqq", :fallback)
+    assert_nil tree.get("yyy")
+    assert_equal :fallback, tree.get("yyy", :fallback)
+  end
+
+  def test_set_returns_the_previous_value_or_fallback
     tree = Rux::Tree.new
     assert_nil tree.set("a", 1)
     assert_equal 1, tree.set("a", 2)
     assert_equal 2, tree.set("a", :x)
+    assert_equal :fallback, tree.set("x", 1, :fallback)
   end
 
   def test_delete_returns_the_previous_value
@@ -88,5 +97,6 @@ class RuxTreeTest < Minitest::Test
     tree.set("abc", :abc)
     assert_equal :abc, tree.delete("abc")
     assert_nil tree.delete("abc")
+    assert_equal :fallback, tree.delete("abc", :fallback)
   end
 end

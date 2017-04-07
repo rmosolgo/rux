@@ -58,7 +58,19 @@ VALUE rux_cTree_size(VALUE self) {
   return INT2FIX(size);
 }
 
-VALUE rux_cTree_set(VALUE self, VALUE key, VALUE value) {
+VALUE rux_cTree_set(int argc, VALUE* argv, VALUE self) {
+  VALUE key, value, fallback;
+  if (argc > 3 || argc < 2) {
+    rb_raise(rb_eArgError, "expected 2-3 arguments");
+  }
+  key = argv[0];
+  value = argv[1];
+  if (argc == 3) {
+    fallback = argv[2];
+  } else {
+    fallback = Qnil;
+  }
+
   if (!RB_TYPE_P(key, T_STRING)) {
     rb_raise(rb_eArgError, "key must be String");
   }
@@ -70,14 +82,24 @@ VALUE rux_cTree_set(VALUE self, VALUE key, VALUE value) {
   void *prev;
   int res = raxInsert(rt, (unsigned char *)(c_str), str_len, (void *)value, &prev);
   if (res == 1) {
-    return Qnil;
+    return fallback;
   } else {
     // TODO: This could also be out-of-memory error
     return (VALUE)(prev);
   }
 }
 
-VALUE rux_cTree_get(VALUE self, VALUE key) {
+VALUE rux_cTree_get(int argc, VALUE* argv, VALUE self) {
+  VALUE key, fallback;
+  if (argc > 2 || argc < 1) {
+    rb_raise(rb_eArgError, "expected 1-2 argumets");
+  }
+  key = argv[0];
+  if (argc == 2) {
+    fallback = argv[1];
+  } else {
+    fallback = Qnil;
+  }
   if (!RB_TYPE_P(key, T_STRING)) {
     rb_raise(rb_eArgError, "key must be String");
   }
@@ -87,13 +109,24 @@ VALUE rux_cTree_get(VALUE self, VALUE key) {
   size_t str_len = RSTRING_LEN(key);
   void *valptr = raxFind(rt, (unsigned char *)c_str, str_len);
   if (valptr == raxNotFound) {
-    return Qnil;
+    return fallback;
   } else {
     return (VALUE)valptr;
   }
 }
 
-VALUE rux_cTree_delete(VALUE self, VALUE key) {
+VALUE rux_cTree_delete(int argc, VALUE* argv, VALUE self) {
+  VALUE key, fallback;
+  if (argc > 2 || argc < 1) {
+    rb_raise(rb_eArgError, "expected 1-2 arguments");
+  }
+  key = argv[0];
+  if (argc == 2) {
+    fallback = argv[1];
+  } else {
+    fallback = Qnil;
+  }
+
   if (!RB_TYPE_P(key, T_STRING)) {
     rb_raise(rb_eArgError, "key must be String");
   }
@@ -106,7 +139,7 @@ VALUE rux_cTree_delete(VALUE self, VALUE key) {
   if (wasRemoved) {
     return (VALUE)(prev);
   } else {
-    return Qnil;
+    return fallback;
   }
 }
 
@@ -146,9 +179,9 @@ void Init_rux(void) {
   VALUE rux_cTree = rb_define_class_under(rux_mRux, "Tree", rb_cData);
   rb_define_alloc_func(rux_cTree, rux_cTree_alloc);
   rb_define_method(rux_cTree, "size", rux_cTree_size, 0);
-  rb_define_method(rux_cTree, "get", rux_cTree_get, 1);
-  rb_define_method(rux_cTree, "set", rux_cTree_set, 2);
-  rb_define_method(rux_cTree, "delete", rux_cTree_delete, 1);
+  rb_define_method(rux_cTree, "get", rux_cTree_get, -1);
+  rb_define_method(rux_cTree, "set", rux_cTree_set, -1);
+  rb_define_method(rux_cTree, "delete", rux_cTree_delete, -1);
   rb_define_alias(rux_cTree, "[]", "get");
   rb_define_alias(rux_cTree, "[]=", "set");
   rb_define_method(rux_cTree, "each", rux_cTree_each, 0);
